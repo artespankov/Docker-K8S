@@ -1,0 +1,9 @@
+The following Pod manifest prescribing to:
+    - perform HTTP GET request against /healthy endpoint on port 8080
+    - initial delay - 5 seconds (wait 5 sec after container started then do first health check)
+    - run health check once each 10 sec
+    - after 3 failed probes in a row - fail container and restart
+
+
+kubectl apply -f kuard-pod-health.yaml
+kubectl port-forward kuard 8080:8080
