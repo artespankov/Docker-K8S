@@ -1,0 +1,1 @@
+Defines a single NEW Volume named kuard-data, which the kuard container mounts to the /data path
