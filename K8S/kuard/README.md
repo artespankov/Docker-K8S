@@ -1,5 +1,8 @@
 # Demo application for "Kubernetes Up and Running"
 
+## Source Repo - https://github.com/kubernetes-up-and-running/kuard
+
+
 ![screenshot](docs/images/screenshot.png)
 
 ### Running
