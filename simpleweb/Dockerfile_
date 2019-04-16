@@ -1,0 +1,11 @@
+# Base image
+FROM alpine
+
+# Install npm
+RUN apk add --update npm
+
+# Install dependencies
+RUN npm install
+
+# Default command
+CMD ["npm", "run"]
