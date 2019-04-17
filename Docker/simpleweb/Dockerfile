@@ -4,24 +4,18 @@
 #Base image
 FROM node:alpine
 
+
+#Specify working directory
+WORKDIR /usr/app
+
+#Copy files from local storage inside the container
+COPY ./package.json ./
 #Install dependencies
 RUN npm install
 
+#Copy files from local storage inside the container
+COPY ./ ./
+
+
 #Default command
-CMD ["npm", "run"]
-
-
-
-## Variant #2 - Experimental. Dig into step-by-step dependencies management waterflow
-#
-## Base image
-#FROM alpine
-#
-## Install npm
-#RUN apk add --update npm
-#
-## Install dependencies
-#RUN npm install
-#
-## Default command
-#CMD ["npm", "run"]
+CMD ["npm", "start"]
