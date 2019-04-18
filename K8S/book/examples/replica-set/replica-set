@@ -1,0 +1,24 @@
+Run replica:
+kubectl apply -f <manifest-file:kuard-rs-pod.yaml>
+
+Inspect replica:
+kubectl describe rs <rs-name:kuard> - <rs-name> described in manifest file in section metadata.name
+
+Scale imperatively:
+kubectl scale --replicas=4 rs/kuard
+
+Scale declaratively:
+Change replicas=n in pod manifest, then apply via kubectl again
+
+Autoscaling:
+The following command would create autoscaler that balancing between 2 and 5 replicas on CPU threshold 80%
+kubectl autoscale rs kuard --min=2 --max=5 --cpu-percent=80
+
+To check this horizontal pod autoscaler:
+kubectl get hpa
+
+To remove replica with all it’s managed nodes (--cascade=false) will keep nodes:
+kubectl delete rs kuard <--cascade=false>
+
+To remove horizontal pod autoscaler aswell:
+kubectl delete hpa kuard
