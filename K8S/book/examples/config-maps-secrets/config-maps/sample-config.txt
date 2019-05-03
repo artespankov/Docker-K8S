@@ -1,0 +1,4 @@
+param1 = value1
+param2 = value2
+another-param = Some string
+extra-param = Some EXTRA

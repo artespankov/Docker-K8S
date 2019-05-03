@@ -1,0 +1,20 @@
+Create new simple config-map from file:
+
+kubectl create configmap sample-config \
+ --from-file=sample-config.txt \
+ --from-literal=extra-param=extra-value \
+ --from-literal=another-param=another-value
+
+Run Pod and port-forward
+kubectl apply -f config-map.yaml
+kubectl port-forward kuard-config 8080
+
+List config maps:
+kubectl get configmaps
+
+Details:
+kubectl describe configmap sample-config
+
+Update:
+kubectl replace/apply -f <manifest_filename>
+kubectl edit configmap my-config
