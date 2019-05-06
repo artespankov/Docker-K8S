@@ -1,0 +1,17 @@
+Deployment object is created during execution of run command on Pod:
+kubectl run nginx --image=nginx:1.7.12
+
+List Deployments:
+kubectl get deployments nginx
+
+Deployments are managing ReplicaSets run under deployment-assigned label:
+kubectl get replicasets --selector=run=nginx
+
+Save existing Deployment config into YAML
+kubectl get deployments nginx --export -o yaml > nginx-deployment.yaml
+
+Edit, then save Deployment config:
+kubectl replace --save-config -f nginx-deployment.yaml
+After that, it's possible to reapply config in common way:
+kubectl apply -f nginx-deployment.yaml
+
