@@ -10,8 +10,67 @@ kubectl get replicasets --selector=run=nginx
 Save existing Deployment config into YAML
 kubectl get deployments nginx --export -o yaml > nginx-deployment.yaml
 
+
+
 Edit, then save Deployment config:
 kubectl replace --save-config -f nginx-deployment.yaml
+
 After that, it's possible to reapply config in common way:
 kubectl apply -f nginx-deployment.yaml
 
+
+
+Then you can check the status of rollout caused by update:
+kubectl rollout status deployments nginx
+
+Pause rollout process (to investigate strange things/debug)
+kubectl rollout pause deployments nginx
+
+And then resume again:
+kubectl rollout resume deployments nginx
+
+Check full deployment history:
+kubectl rollout history deployment nginx
+
+Undo last change (works both for partially/fully completed rollouts):
+kubectl rollout undo deployments nginx
+And revert to particular revision number:
+kubectl rollout undo deployments nginx --to-revision=1
+
+
+There are two types of deployment strategies:
+
+Recreate - ReplicaSet terminate all old Pods  associated with Deployment.
+RS then notices that no PODs available and then recreate them from new image.
+
+RollingUpdate - update few PODs in a time, piece by piece. You can set the absolute number of PODs
+being updated simultaneously or set the percentage of updated PODs.
+There are two possible configs of rolling update:
+
+maxUnavailable:
+Operate only existing PODs, don't use additional resources.
+100% means the same as Recreate strategy - shut down all old PODs and run all new.
+20%, for example, means that 20% of old PODs will be shut down and recreated, then next next portion
+until all old PODs will be replaced by new.
+maxSurge:
+Controls how many extra resources can be used to complete rollout:
+I.e. if you set maxUnavailable to 0% and maxSurge to 20%,
+20% of extra capacity will be used to operate. At any time 100% of system capacity guaranteed
+to be operable.
+100% maxSurge means that new pods will be created on the first stage in amount the same as old pods
+and only after that 100% of old pods will be shut down (so called "blue/green" deployment).
+new pods (and then shut down the same amount of old).
+
+
+Some parameters to control over rollouts:
+spec:
+  # Keep history of rollouts (for example, once per day, so keep history for two weeks)
+  revisionHistoryLimit: 14
+  # Set the additional time to wait after updated pod reports status as healthy
+  minReadySeconds: 60
+  # Timeout on deployment progress, if deployment time reaches timeout, it's marked as failed
+  progressDeadlineSeconds: 600
+
+To delete deployment:
+kubectl delete deployments nginx
+kubectl delete -f nginx-deployment.yaml
