@@ -1,0 +1,24 @@
+To provide connection to external storage (or service):
+Create new service without Pod selector
+
+Example - set with DNS name:
+spec:
+    type: ExternalName
+    externalName: "<external_dns>"
+
+Set with IP instead of DNS:
+metadata:
+    name: external
+
+
+To enable data storage - separate storage data
+and application serving this dataset
+
+Data can be stored on persistent Volume
+(and don't rely on any PODs or containers).
+It then can be moved on other machine along with PODs and
+can be securely stored, don't damage or disappear
+because of POD/container crash.
+
+After new PersistentVolume object being created, it must be attached to POD
+(with PersistentVolumeClaim object)

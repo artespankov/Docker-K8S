@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: mysql
+  # labels to bind a Service to POD
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: database
+          image: mysql
+          resources:
+            requests:
+              cpu: 1
+              memory: 2Gi
+          env:
+            - name: MYSQL_ROOT_PASS
+              value: PASSWORD
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: database
+              # /var/lib/mysql is where MySQL stores its databases
+              mountPath: "/var/lib/mysql"
+        volumes:
+          - name: database
+            persistentVolumeClaim:
+              claimName: database
