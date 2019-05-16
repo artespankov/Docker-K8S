@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metdata:
+  name: my-claim
+  annotations:
+    # It's the link back from this claim back to storage class
+    volume.beta.kubernetes.io/storage-class: default
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+        requests:
+          storage: 10Gi

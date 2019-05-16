@@ -1,0 +1,6 @@
+StatefulSets are replicated groups of pods similar to ReplicaSets,
+but unlike RS, the have properties:
+    - Each replica gets a persistent hostname with unique index
+      (e.g. database-0, database-1, etc.)
+    - On create (scale up) the order of creation lowest -> highest index
+    - On delete (scale down) the order is highest -> lowest
